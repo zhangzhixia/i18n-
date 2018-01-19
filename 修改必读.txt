@@ -1,0 +1,31 @@
+/*
+ *  zzx 20180119
+ 	修改注意事项总结：
+ */
+
+1、i18n语言包必须存放在根目录下，若需要修改，则需要对应修改language.js文件对应代码
+	jQuery.i18n.properties({
+		path: localPath + '/i18n/' + i18nLanguage + '/', //资源文件路径
+	})
+	注意：变量localPath是通过157行getRealPath()的方法获取的根目录
+2、html页面需要注意的地方
+	1> 每个页面需要添加 <meta id="i18n_pagename" content="index-common">
+	注意：meta标签的id在language.js文件中有调用；content中的内容是语言包中的资源名称，无需加后缀，language.js中有对应处理
+	2> 每个页面需要加载语言包文件
+	<script src="../js/jquery.i18n.properties-1.0.9.js"></script>
+    <script src="../js/language.js"></script>
+ 	  注意：路径需自行修改
+4、language.js文件所需要注意的地方：
+	1> 选择语言的182行至185行
+		getCookie("userLanguage", language, {
+			expires: 30,
+			path: '/ChangeLanguage' //这个是自己项目的名称
+		});
+	注意：path后面的值是自己项目的名称，必须改
+
+
+
+如何将各种语言写入到页面：
+ 	1、页面上需要进行翻译的一类标签（例如只需要进行展示的）统一添加标记，方便选择器可以选择到；
+ 		注意：统一添加的这个标记例如name="userName",这个标记的值需要和语言包中的key值进行对应
+ 	2、$(this).html($.i18n.prop($(this).attr('name')));  写入到指定的标签内
